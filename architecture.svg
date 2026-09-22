@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="360" viewBox="0 0 1400 360">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0" stop-color="#64d7ff"/>
+      <stop offset="1" stop-color="#9e8cff"/>
+    </linearGradient>
+    <style>
+      .bg{fill:#07111f}.box{fill:#102139;stroke:#29415d;stroke-width:2}
+      .title{font:700 23px Inter,Arial,sans-serif;fill:#f4f8fc}
+      .sub{font:16px Inter,Arial,sans-serif;fill:#9eb0c7}
+      .arrow{stroke:url(#g);stroke-width:5;fill:none;marker-end:url(#arrow)}
+      .cap{font:700 17px Inter,Arial,sans-serif;fill:#cbeeff}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8ca6ff"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1400" height="360" rx="28"/>
+  <text x="70" y="64" class="cap">LaunchPath production concept</text>
+
+  <rect class="box" x="60" y="105" rx="18" width="230" height="160"/>
+  <text x="85" y="150" class="title">Product Events</text>
+  <text x="85" y="184" class="sub">Profile completion</text>
+  <text x="85" y="209" class="sub">Uploads & inactivity</text>
+  <text x="85" y="234" class="sub">Activation outcomes</text>
+
+  <rect class="box" x="335" y="105" rx="18" width="230" height="160"/>
+  <text x="360" y="150" class="title">Provider Context</text>
+  <text x="360" y="184" class="sub">Stage & provider type</text>
+  <text x="360" y="209" class="sub">Location & goals</text>
+  <text x="360" y="234" class="sub">Blocker history</text>
+
+  <rect class="box" x="610" y="105" rx="18" width="230" height="160"/>
+  <text x="635" y="150" class="title">Orchestration</text>
+  <text x="635" y="184" class="sub">Deterministic rules</text>
+  <text x="635" y="209" class="sub">Trusted retrieval</text>
+  <text x="635" y="234" class="sub">Risk routing</text>
+
+  <rect class="box" x="885" y="105" rx="18" width="230" height="160"/>
+  <text x="910" y="150" class="title">LLM Layer</text>
+  <text x="910" y="184" class="sub">Explain & summarize</text>
+  <text x="910" y="209" class="sub">Personalize next step</text>
+  <text x="910" y="234" class="sub">No policy invention</text>
+
+  <rect class="box" x="1160" y="105" rx="18" width="180" height="160"/>
+  <text x="1185" y="150" class="title">Outcome</text>
+  <text x="1185" y="184" class="sub">Task completion</text>
+  <text x="1185" y="209" class="sub">Measurement</text>
+  <text x="1185" y="234" class="sub">Human handoff</text>
+
+  <path class="arrow" d="M 290 185 L 327 185"/>
+  <path class="arrow" d="M 565 185 L 602 185"/>
+  <path class="arrow" d="M 840 185 L 877 185"/>
+  <path class="arrow" d="M 1115 185 L 1152 185"/>
+</svg>

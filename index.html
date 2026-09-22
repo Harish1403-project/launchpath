@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content="LaunchPath — an academic product case study by Harish Chandrasekar exploring AI-assisted onboarding, activation, and customer feedback loops."/>
+  <title>LaunchPath | AI-Assisted Provider Onboarding</title>
+  <style>
+    :root{
+      --bg:#07111f; --bg2:#0b1728; --panel:#0d1b2d; --panel2:#11223a;
+      --text:#f4f8fc; --muted:#9eb0c7; --line:rgba(255,255,255,.09);
+      --cyan:#64d7ff; --violet:#9e8cff; --green:#74e6ad; --amber:#ffd37a;
+      --shadow:0 24px 70px rgba(0,0,0,.35);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--text); background:
+      radial-gradient(circle at 10% 0%, rgba(100,215,255,.13), transparent 25%),
+      radial-gradient(circle at 85% 8%, rgba(158,140,255,.12), transparent 22%),
+      linear-gradient(180deg,var(--bg),#060d18 72%);
+      font-family:Inter, ui-sans-serif, system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.55;
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit}
+    .wrap{max-width:1180px;margin:auto;padding:0 22px}
+    .nav{
+      position:sticky;top:0;z-index:50;backdrop-filter:blur(15px);
+      background:rgba(7,17,31,.78);border-bottom:1px solid var(--line)
+    }
+    .navin{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:70px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:-.02em}
+    .mark{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:#06111d;font-weight:950;
+      background:linear-gradient(135deg,var(--cyan),var(--violet))}
+    .links{display:flex;gap:19px;color:#b7c5d8;font-size:13px}
+    .links a:hover{color:white}
+    .badge{border:1px solid var(--line);padding:7px 10px;border-radius:999px;font-size:11px;color:#cbd5e1}
+    .hero{display:grid;grid-template-columns:1.25fr .75fr;gap:28px;padding:76px 0 50px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;
+      background:rgba(255,255,255,.035);font-size:12px;color:#c8d4e5}
+    h1{font-size:clamp(46px,7.2vw,80px);line-height:.98;letter-spacing:-.06em;margin:18px 0 20px}
+    .grad{background:linear-gradient(90deg,var(--cyan),#c1b8ff);-webkit-background-clip:text;color:transparent}
+    .lead{font-size:19px;color:#c2cede;max-width:760px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:27px}
+    .btn{border:1px solid var(--line);padding:12px 16px;border-radius:13px;background:#12243d;color:white;font-weight:750;cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,#55cdf6,#8b75ef);color:#07111f;border:none}
+    .glass{background:linear-gradient(180deg,rgba(17,34,58,.96),rgba(10,21,37,.96));border:1px solid var(--line);
+      border-radius:var(--radius);box-shadow:var(--shadow)}
+    .heroCard{padding:23px}
+    .small{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+    .metric{font-size:54px;font-weight:900;letter-spacing:-.055em}
+    .positive{color:var(--green);font-size:13px}
+    .miniGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+    .mini{padding:14px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.03)}
+    .mini b{font-size:23px;display:block;margin-top:3px}
+    .disclosure{margin-top:19px;padding:13px 14px;border-left:3px solid var(--amber);
+      background:rgba(255,211,122,.06);border-radius:8px;color:#dfd7b6;font-size:12px}
+    section{padding:42px 0}
+    .head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:18px}
+    .head h2{font-size:32px;letter-spacing:-.035em;margin:4px 0 0}
+    .head p{max-width:650px;margin:0;color:var(--muted)}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .card{padding:19px}
+    .klabel{font-size:12px;color:var(--muted)}
+    .kvalue{font-size:31px;font-weight:850;margin-top:5px}
+    .kfoot{font-size:12px;color:#b8c5d6}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .barRow{display:grid;grid-template-columns:175px 1fr 48px;gap:10px;align-items:center;margin:13px 0}
+    .bar{height:10px;background:#07111f;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+    .fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet));border-radius:999px}
+    .muted{color:var(--muted)}
+    .quote{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);margin-top:10px}
+    .pill{display:inline-flex;padding:4px 8px;border-radius:999px;background:rgba(100,215,255,.11);color:#c1efff;font-size:11px;margin-right:6px}
+    .formGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    input,select,textarea{width:100%;border:1px solid var(--line);background:#081528;color:white;border-radius:12px;padding:11px;outline:none}
+    textarea{min-height:90px;resize:vertical}
+    .output{margin-top:14px;padding:16px;border:1px solid rgba(100,215,255,.18);border-radius:15px;
+      background:linear-gradient(135deg,rgba(100,215,255,.07),rgba(158,140,255,.08))}
+    .steps{display:grid;gap:8px;margin-top:11px}
+    .step{display:flex;gap:9px;padding:9px 10px;background:rgba(255,255,255,.03);border-radius:11px}
+    .num{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#243753;font-weight:800;font-size:11px;flex:0 0 auto}
+    .story{display:grid;grid-template-columns:220px 1fr;gap:22px}
+    .storyNav{position:sticky;top:92px;height:max-content}
+    .storyNav a{display:block;padding:8px 10px;border-radius:9px;color:#9fb0c7;font-size:13px}
+    .storyNav a:hover{background:rgba(255,255,255,.04);color:white}
+    .storyBlock{padding:22px;margin-bottom:14px}
+    .storyBlock h3{font-size:22px;letter-spacing:-.025em;margin:2px 0 10px}
+    .storyBlock p{color:#c0ccda}
+    .storyBlock ul{color:#c0ccda;margin-bottom:0}
+    .arch{padding:24px;overflow:auto}
+    .archflow{display:grid;grid-template-columns:repeat(5,minmax(160px,1fr));gap:12px;align-items:stretch;min-width:860px}
+    .archbox{padding:16px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.03);position:relative}
+    .archbox:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translate(50%,-50%);color:#7591ae;font-weight:900}
+    .archbox b{display:block;margin-bottom:6px}
+    .archbox span{font-size:12px;color:var(--muted)}
+    .tableWrap{overflow:auto}
+    table{width:100%;border-collapse:collapse;min-width:760px}
+    th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px}
+    th{color:var(--muted);font-weight:600}
+    .about{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}
+    .aboutMain h3{font-size:28px;margin:2px 0 10px;letter-spacing:-.03em}
+    .skillRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+    .skill{padding:6px 9px;border-radius:999px;border:1px solid var(--line);font-size:11px;color:#cbd5e1}
+    .contactBox{display:grid;gap:10px}
+    .contactItem{padding:13px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.03)}
+    footer{padding:42px 0 58px;border-top:1px solid var(--line);margin-top:28px;color:var(--muted);font-size:12px}
+    @media(max-width:920px){
+      .hero,.grid2,.about,.story{grid-template-columns:1fr}
+      .kpis,.grid3{grid-template-columns:1fr 1fr}
+      .storyNav{position:static;display:flex;gap:6px;overflow:auto}
+      .storyNav a{white-space:nowrap}
+      .links{display:none}
+    }
+    @media(max-width:560px){
+      .wrap{padding:0 16px}
+      .kpis,.grid3,.formGrid{grid-template-columns:1fr}
+      .hero{padding-top:50px}
+      h1{font-size:47px}
+      .barRow{grid-template-columns:118px 1fr 42px;font-size:12px}
+      .badge{display:none}
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap navin">
+      <a class="brand" href="#top"><span class="mark">L</span> LaunchPath</a>
+      <div class="links">
+        <a href="#dashboard">Dashboard</a>
+        <a href="#prototype">Prototype</a>
+        <a href="#case-study">Case Study</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#about">About</a>
+      </div>
+      <span class="badge">Academic portfolio project</span>
+    </div>
+  </nav>
+
+  <main class="wrap" id="top">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">AI Product Management · Customer Onboarding · Product Operations</span>
+        <h1>Making onboarding feel like a <span class="grad">guided conversation.</span></h1>
+        <p class="lead">
+          LaunchPath is an academic product case study exploring how an AI-assisted onboarding experience could help
+          small-business service providers understand requirements, remove blockers, and reach activation faster.
+        </p>
+        <div class="actions">
+          <a href="#prototype" class="btn primary">Try the prototype</a>
+          <a href="#case-study" class="btn">Read the case study</a>
+        </div>
+        <div class="disclosure">
+          Independent academic/portfolio concept by Harish Chandrasekar. It is not affiliated with Wonderschool or any other employer.
+          Customer quotes, metrics, and usage data are simulated for product-design demonstration.
+        </div>
+      </div>
+
+      <div class="glass heroCard">
+        <div class="small">North-star metric</div>
+        <div class="metric">76%</div>
+        <div class="positive">▲ 8 pts simulated activation lift</div>
+        <div class="miniGrid">
+          <div class="mini"><span class="small">Median onboarding</span><b>7.4 days</b></div>
+          <div class="mini"><span class="small">Paid conversion</span><b>58%</b></div>
+          <div class="mini"><span class="small">Tickets/provider</span><b>1.3</b></div>
+          <div class="mini"><span class="small">CSAT</span><b>4.7 / 5</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard">
+      <div class="head">
+        <div><div class="small">01 · Product Analytics</div><h2>Activation dashboard</h2></div>
+        <p>Simulated funnel data shows where users stall and turns a broad “onboarding problem” into measurable product opportunities.</p>
+      </div>
+      <div class="kpis">
+        <div class="glass card"><div class="klabel">Activation rate</div><div class="kvalue">76%</div><div class="kfoot">Goal: 80%+</div></div>
+        <div class="glass card"><div class="klabel">Paid conversion</div><div class="kvalue">58%</div><div class="kfoot">Within 30 days</div></div>
+        <div class="glass card"><div class="klabel">Median time to activate</div><div class="kvalue">7.4d</div><div class="kfoot">Baseline: 10.1d</div></div>
+        <div class="glass card"><div class="klabel">Support tickets</div><div class="kvalue">1.3</div><div class="kfoot">Per provider</div></div>
+      </div>
+
+      <div class="grid2" style="margin-top:18px">
+        <div class="glass card">
+          <div class="small">Onboarding funnel</div>
+          <h3>Conversion by stage</h3>
+          <div class="barRow"><span>Account created</span><div class="bar"><div class="fill" style="width:100%"></div></div><b>100%</b></div>
+          <div class="barRow"><span>Profile complete</span><div class="bar"><div class="fill" style="width:82%"></div></div><b>82%</b></div>
+          <div class="barRow"><span>Compliance ready</span><div class="bar"><div class="fill" style="width:69%"></div></div><b>69%</b></div>
+          <div class="barRow"><span>Service published</span><div class="bar"><div class="fill" style="width:61%"></div></div><b>61%</b></div>
+          <div class="barRow"><span>Paid conversion</span><div class="bar"><div class="fill" style="width:58%"></div></div><b>58%</b></div>
+        </div>
+        <div class="glass card">
+          <div class="small">Product signal</div>
+          <h3>Largest modeled drop-off</h3>
+          <div class="metric" style="font-size:48px">13 pts</div>
+          <p class="muted">The biggest friction appears between profile completion and compliance readiness.</p>
+          <div class="quote">
+            <span class="pill">Compliance clarity</span><span class="pill">Next step</span>
+            <p style="margin:9px 0 0">“I know what I uploaded, but I can’t tell what is still missing or what I should do next.”</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="prototype">
+      <div class="head">
+        <div><div class="small">02 · Interactive Prototype</div><h2>Onboarding Copilot</h2></div>
+        <p>A lightweight prototype that converts provider context and a stated blocker into a prioritized next-best-action plan.</p>
+      </div>
+
+      <div class="grid2">
+        <div class="glass card">
+          <div class="formGrid">
+            <div>
+              <label for="type">Provider type</label>
+              <select id="type">
+                <option>Home-based provider</option>
+                <option>Small center</option>
+                <option>Independent instructor</option>
+              </select>
+            </div>
+            <div>
+              <label for="state">State</label>
+              <select id="state">
+                <option>Massachusetts</option>
+                <option>California</option>
+                <option>Ohio</option>
+                <option>Texas</option>
+              </select>
+            </div>
+            <div>
+              <label for="stage">Current stage</label>
+              <select id="stage">
+                <option value="profile">Creating profile</option>
+                <option value="compliance">Compliance / documents</option>
+                <option value="publish">Ready to publish</option>
+                <option value="growth">Trying to get first customers</option>
+              </select>
+            </div>
+            <div>
+              <label for="urgency">Target launch</label>
+              <select id="urgency">
+                <option>Within 30 days</option>
+                <option>Within 2 weeks</option>
+                <option>This week</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <label for="blocker">Biggest blocker</label>
+            <textarea id="blocker" placeholder="Example: I uploaded documents, but I don't know what is still missing."></textarea>
+          </div>
+          <button class="btn primary" style="margin-top:12px" onclick="generatePlan()">Generate next-best action</button>
+        </div>
+
+        <div class="glass card">
+          <div class="small">Copilot output</div>
+          <div class="output" id="output">
+            <h3 style="margin-top:0">Ready to generate a plan</h3>
+            <p class="muted">Select a stage, describe the blocker, and run the prototype.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="case-study">
+      <div class="head">
+        <div><div class="small">03 · Product Case Study</div><h2>From ambiguity to product decision</h2></div>
+        <p>The case study shows the reasoning behind the prototype: user problem, research plan, metrics, prioritization, and experimentation.</p>
+      </div>
+
+      <div class="story">
+        <aside class="glass card storyNav">
+          <a href="#problem">Problem</a>
+          <a href="#research">Research</a>
+          <a href="#journey">Journey</a>
+          <a href="#metrics">Metrics</a>
+          <a href="#experiments">Experiments</a>
+          <a href="#tradeoffs">Trade-offs</a>
+        </aside>
+
+        <div>
+          <article class="glass storyBlock" id="problem">
+            <div class="small">Problem framing</div>
+            <h3>Users do not need “more onboarding.” They need clarity.</h3>
+            <p>I framed the problem around three jobs-to-be-done: understand what is required, know what to do next, and see visible progress toward launch. That led to a narrower product hypothesis: contextual guidance can reduce uncertainty and prevent avoidable drop-off.</p>
+          </article>
+
+          <article class="glass storyBlock" id="research">
+            <div class="small">Research plan</div>
+            <h3>Validate the friction before automating it.</h3>
+            <p>For a real product, I would combine qualitative and behavioral evidence rather than relying on one source.</p>
+            <ul>
+              <li>Customer interviews with recently activated and stalled providers</li>
+              <li>Support-ticket coding to identify repeat questions and unclear requirements</li>
+              <li>Funnel event analysis by onboarding step and cohort</li>
+              <li>Usability tests of the checklist and copilot interaction</li>
+            </ul>
+            <p><b>Academic-project disclosure:</b> this portfolio uses simulated interview notes and simulated analytics to demonstrate the methodology.</p>
+          </article>
+
+          <article class="glass storyBlock" id="journey">
+            <div class="small">Journey design</div>
+            <h3>Move from generic tasks to context-aware next actions.</h3>
+            <p>The proposed experience uses provider type, stage, location, urgency, and blocker context. Instead of showing a long checklist, it highlights the highest-priority action, explains why it matters, then reveals the next step.</p>
+          </article>
+
+          <article class="glass storyBlock" id="metrics">
+            <div class="small">Success definition</div>
+            <h3>Measure customer progress, not AI usage.</h3>
+            <p>The north-star metric is provider activation. Supporting metrics include median time to activation, paid conversion, support tickets per provider, CSAT, and a first-customer milestone. AI response volume is an operational metric, not the product outcome.</p>
+          </article>
+
+          <article class="glass storyBlock" id="experiments">
+            <div class="small">Experiment backlog</div>
+            <h3>Prioritize the smallest intervention with measurable impact.</h3>
+            <div class="tableWrap">
+              <table>
+                <thead><tr><th>Experiment</th><th>Hypothesis</th><th>RICE</th><th>Primary metric</th></tr></thead>
+                <tbody>
+                  <tr><td>Missing-document detector</td><td>Clear document state reduces compliance drop-off</td><td>8.6</td><td>Compliance completion</td></tr>
+                  <tr><td>Dynamic onboarding checklist</td><td>Personalized steps reduce time-to-activation</td><td>8.1</td><td>Median activation time</td></tr>
+                  <tr><td>First-customer playbook</td><td>Post-launch guidance improves early success</td><td>6.9</td><td>30-day first sale</td></tr>
+                  <tr><td>Triggered progress nudges</td><td>Timely reminders recover stalled users</td><td>6.3</td><td>7-day reactivation</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="glass storyBlock" id="tradeoffs">
+            <div class="small">Product trade-offs</div>
+            <h3>Use AI where flexibility helps; use rules where correctness matters.</h3>
+            <p>For compliance-sensitive decisions, the prototype assumes deterministic rules and trusted content are the source of truth. An LLM can explain, summarize, and personalize, but uncertain or high-risk cases should route to a human rather than fabricate an answer.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture">
+      <div class="head">
+        <div><div class="small">04 · Technical Concept</div><h2>Production architecture</h2></div>
+        <p>A simple architecture for turning product events and trusted policy content into contextual onboarding guidance.</p>
+      </div>
+      <div class="glass arch">
+        <div class="archflow">
+          <div class="archbox"><b>1. Product Events</b><span>Profile completion, uploads, inactivity, publication, conversion</span></div>
+          <div class="archbox"><b>2. Provider Context</b><span>Stage, provider type, state, goals, blocker history</span></div>
+          <div class="archbox"><b>3. Orchestration</b><span>Rules for critical logic + retrieval of trusted help content</span></div>
+          <div class="archbox"><b>4. LLM Layer</b><span>Plain-language explanation, summarization, personalized next action</span></div>
+          <div class="archbox"><b>5. Outcome + Handoff</b><span>Task completion, measurement, or escalation to a human</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="head">
+        <div><div class="small">05 · About the Builder</div><h2>Harish Chandrasekar</h2></div>
+        <p>I like working at the intersection of customer problems, technical systems, analytics, and execution.</p>
+      </div>
+
+      <div class="about">
+        <div class="glass card aboutMain">
+          <div class="small">Background</div>
+          <h3>Engineering → product & operations</h3>
+          <p class="muted">
+            I have 3+ years of experience in engineering and product-operations work, including customer requirements,
+            validation planning, release coordination, KPI reporting, and cross-functional problem solving. I also completed
+            a Master's in Industrial Engineering at Northeastern University.
+          </p>
+          <div class="skillRow">
+            <span class="skill">Product Operations</span>
+            <span class="skill">Customer Requirements</span>
+            <span class="skill">SQL</span>
+            <span class="skill">Power BI</span>
+            <span class="skill">Excel</span>
+            <span class="skill">Root Cause Analysis</span>
+            <span class="skill">Experimentation</span>
+            <span class="skill">Cross-functional Delivery</span>
+          </div>
+        </div>
+
+        <div class="glass card contactBox">
+          <div class="small">Why I built this</div>
+          <div class="contactItem">
+            <b>Customer problem</b><br/>
+            <span class="muted">I wanted a project that shows how I translate an ambiguous customer experience problem into a measurable product workflow.</span>
+          </div>
+          <div class="contactItem">
+            <b>Ownership</b><br/>
+            <span class="muted">I scoped the problem, defined the metrics, designed the interaction, built the prototype, and documented trade-offs.</span>
+          </div>
+          <div class="contactItem">
+            <b>What I would do next</b><br/>
+            <span class="muted">Run 5–8 user interviews, validate the biggest drop-off, test the checklist, then build event tracking around activation.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <b style="color:white">LaunchPath</b> — academic product portfolio project by Harish Chandrasekar.<br/>
+      Built with HTML, CSS, and JavaScript. No live LLM or production customer data is used.
+    </div>
+  </footer>
+
+  <script>
+    function escapeHtml(t){return t.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[m])}
+    function generatePlan(){
+      const stage=document.getElementById('stage').value;
+      const state=document.getElementById('state').value;
+      const type=document.getElementById('type').value;
+      const urgency=document.getElementById('urgency').value;
+      const blocker=document.getElementById('blocker').value.trim();
+
+      const plans={
+        profile:{risk:"Low–Medium",title:"Finish the minimum launch profile first.",why:"Reducing optional decisions can shorten the path to a complete profile.",steps:[
+          "Confirm the required business and service details",
+          "Add hours, service area, capacity, and pricing basics",
+          "Upload one strong profile image",
+          "Run a required-field readiness check"
+        ]},
+        compliance:{risk:"High",title:"Resolve document uncertainty before adding more tasks.",why:"The modeled funnel shows compliance clarity as the highest-friction stage.",steps:[
+          "Show required versus received documents in one checklist",
+          "Label each upload as received, accepted, or needs action",
+          "Explain the single highest-priority missing item",
+          "Escalate ambiguous or policy-sensitive cases to a human"
+        ]},
+        publish:{risk:"Medium",title:"Run a final readiness check and preview the listing.",why:"A preview can reduce uncertainty immediately before publication.",steps:[
+          "Validate all required launch fields",
+          "Preview the customer-facing listing",
+          "Highlight any remaining blocker",
+          "Publish and show the first post-launch milestone"
+        ]},
+        growth:{risk:"Medium",title:"Shift from setup to the first customer outcome.",why:"After activation, the next product job is helping the provider reach early value.",steps:[
+          "Set a 30-day first-customer milestone",
+          "Improve listing completeness and responsiveness",
+          "Recommend one practical outreach channel",
+          "Track inquiry → conversation → conversion"
+        ]}
+      };
+
+      const p=plans[stage];
+      document.getElementById('output').innerHTML=`
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
+          <div><div class="small">Recommended next action</div><h3 style="margin:4px 0 5px">${p.title}</h3></div>
+          <span class="pill">${p.risk} risk</span>
+        </div>
+        <p class="muted" style="font-size:13px">${type} · ${state} · ${urgency}${blocker?` · “${escapeHtml(blocker)}”`:""}</p>
+        <p><b>Why:</b> ${p.why}</p>
+        <div class="steps">${p.steps.map((s,i)=>`<div class="step"><div class="num">${i+1}</div><div>${s}</div></div>`).join("")}</div>
+        <p class="muted" style="font-size:11px;margin-bottom:0">Demo logic is deterministic JavaScript, used to simulate the interaction design of an AI onboarding assistant.</p>
+      `;
+    }
+  </script>
+</body>
+</html>

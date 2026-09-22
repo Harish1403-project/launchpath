@@ -1,0 +1,9 @@
+{
+  "name": "launchpath-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Academic product portfolio project for AI-assisted provider onboarding",
+  "scripts": {
+    "start": "python3 -m http.server 8000"
+  }
+}
